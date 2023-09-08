@@ -1,4 +1,3 @@
-import './App.css';
 import Layout from './Layouts/Index';
 import Form from './components/Form';
 

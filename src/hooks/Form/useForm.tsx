@@ -22,9 +22,13 @@ function useForm(initialValues: FormProps) {
 		console.log(RFC, CURP);
 	};
 
-	const validateRFC = (rfc: string) => {};
+	const validateRFC = (rfc: string) => {
+		return rfc.length === 13;
+	};
 
-	const validateCURP = (curp: string) => {};
+	const validateCURP = (curp: string) => {
+		return curp.length === 18;
+	};
 
 	return {
 		values,
