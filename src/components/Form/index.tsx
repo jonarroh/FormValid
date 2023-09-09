@@ -1,6 +1,25 @@
 import toast from 'react-hot-toast';
 import useForm from '../../hooks/Form/useForm';
 import Alert from '../Alert/Alert';
+export const notify = ({
+	message = 'Validando Información',
+	type = 'info',
+	title = 'Información'
+}: {
+	message?: string;
+	type?: 'success' | 'error' | 'warning' | 'info';
+	title?: string;
+}) =>
+	toast.custom(t => (
+		<>
+			<div
+				className={`${
+					t.visible ? 'animate-enter' : 'animate-leave'
+				} max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
+				<Alert message={message} type={type} title={title} />
+			</div>
+		</>
+	));
 
 function Form() {
 	const {
@@ -63,29 +82,27 @@ function Form() {
 
 				<div className="flex flex-row justify-center gap-5 mb-5">
 					<button
+						type="submit"
 						onClick={() => {
+							notify({
+								message: 'Validando Información',
+								type: 'info'
+							});
 							validateRFC(values.RFC);
-							toast.custom(t => (
-								<>
-									<div
-										className={`${
-											t.visible ? 'animate-enter' : 'animate-leave'
-										} max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
-										<Alert
-											message="hola"
-											type="success"
-											title="hola"
-										/>
-									</div>
-								</>
-							));
 						}}
 						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
 						Validar RFC
 					</button>
 
 					<button
-						onClick={() => validateCURP(values.CURP)}
+						type="submit"
+						onClick={() => {
+							notify({
+								message: 'Validando Información',
+								type: 'info'
+							});
+							validateCURP(values.CURP);
+						}}
 						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
 						Validar CURP
 					</button>
