@@ -88,7 +88,7 @@ function Form() {
 								message: 'Validando Información',
 								type: 'info'
 							});
-							validateRFC(values.RFC);
+							validateRFC(values.RFC, values.CURP);
 						}}
 						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
 						Validar RFC
@@ -101,7 +101,7 @@ function Form() {
 								message: 'Validando Información',
 								type: 'info'
 							});
-							validateCURP(values.CURP);
+							validateCURP(values.CURP, values.RFC);
 						}}
 						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
 						Validar CURP

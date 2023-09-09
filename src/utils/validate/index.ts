@@ -73,17 +73,16 @@ export const validateDateCharacters = (curp: string) => {
 		return false;
 	}
 
-	const year = parseInt(dateDigits.slice(0, 2), 10);
+	const yearDigits = parseInt(dateDigits.slice(0, 2), 10);
 	const month = parseInt(dateDigits.slice(2, 4), 10);
 	const day = parseInt(dateDigits.slice(4, 6), 10);
 
-	console.log({
-		year,
-		month,
-		day
-	});
+	// Obtener el año completo teniendo en cuenta el siglo.
+	const currentYear = new Date().getFullYear();
+	const century = curp.charAt(16) === 'A' ? 2000 : 1900;
+	const year = century + yearDigits;
 
-	if (year < 0 || year > 99) {
+	if (year < currentYear - 100 || year > currentYear) {
 		console.log('year');
 		return false;
 	}
@@ -102,7 +101,7 @@ export const validateDateCharacters = (curp: string) => {
 };
 
 export const calculateYearsOld = (curp: string) => {
-	const year = parseInt(curp.slice(4, 6), 10);
+	let yearDigits = parseInt(curp.slice(4, 6), 10);
 	const month = parseInt(curp.slice(6, 8), 10);
 	const day = parseInt(curp.slice(8, 10), 10);
 
@@ -111,7 +110,26 @@ export const calculateYearsOld = (curp: string) => {
 	const monthToday = today.getMonth() + 1;
 	const dayToday = today.getDate();
 
-	let age = yearToday - year;
+	const century = curp.charAt(16) === 'A' ? 2000 : 1900;
+	let year = century + yearDigits;
+
+	if (century == 1900) {
+		// @ts-ignore-next-line
+		yearDigits = '19' + yearDigits;
+	} else {
+		// @ts-ignore-next-line
+		if (yearDigits < 10) yearDigits = '200' + yearDigits;
+		// @ts-ignore-next-line
+		else yearDigits = '20' + yearDigits;
+	}
+
+	console.log({
+		yearDigits,
+		yearToday,
+		year
+	});
+
+	let age = parseInt('20' + yearToday) - yearDigits;
 
 	if (monthToday < month) {
 		age--;
@@ -120,6 +138,7 @@ export const calculateYearsOld = (curp: string) => {
 	if (monthToday === month && dayToday < day) {
 		age--;
 	}
+	console.log(age);
 
 	return age;
 };

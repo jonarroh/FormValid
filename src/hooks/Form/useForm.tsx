@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
 	calculateYearsOld,
 	validate4Curp,
+	validate4Rfc,
 	validateCurpSize,
 	validateDateCharacters,
 	validateFistValues,
@@ -32,15 +33,17 @@ function useForm(initialValues: FormProps) {
 	};
 
 	const createError = (name: string, message: string) => {
+		console.log(errors);
 		setErrors({
 			...errors,
 			[name]: message
 		});
 
 		setTimeout(() => {
+			//limpiar todos los errores
 			setErrors({
-				...errors,
-				[name]: ''
+				RFC: '',
+				CURP: ''
 			});
 		}, 3000);
 	};
@@ -48,31 +51,54 @@ function useForm(initialValues: FormProps) {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const { RFC, CURP } = values;
-		const isValid = validateFistValues(RFC, CURP);
+		const isValidRfcSize = validateRfcSize(RFC);
+		const isValidCurpSize = validateCurpSize(CURP);
+		if (typeof isValidRfcSize === 'string')
+			createError('RFC', isValidRfcSize);
+		if (typeof isValidCurpSize === 'string')
+			createError('CURP', isValidCurpSize);
+	};
+
+	const validateRFC = (rfc: string, curp: string) => {
+		const isValid = validateFistValues(rfc, curp);
 		if (!isValid) {
-			createError('RFC', 'los valores no son correctos');
-			createError('CURP', 'los valores no son correctos');
+			createError('RFC', 'El RFC no es igual al CURP');
+			return;
 		}
+		const isValid4Characters = validate4Rfc(rfc);
+		if (!isValid4Characters) {
+			createError('RFC', 'El RFC no es valido');
+			return;
+		}
+		const age = calculateYearsOld(curp);
+		console.log(Math.abs(age));
+
+		if (Math.abs(age) < 18) {
+			createError('RFC', 'El RFC no es valido');
+			return;
+		}
+		notify({
+			message: `tu edad es de ${Math.abs(age)} años`,
+			type: 'success',
+			title: 'Información'
+		});
 	};
 
-	const validateRFC = (rfc: string) => {
-		const isSizeValid = validateRfcSize(rfc);
-		if (typeof isSizeValid === 'string')
-			createError('RFC', isSizeValid);
-	};
-
-	const validateCURP = (curp: string) => {
-		const isValidSize = validateCurpSize(curp);
-		if (typeof isValidSize === 'string')
-			createError('CURP', isValidSize);
+	const validateCURP = (curp: string, rfc: string) => {
+		const isValid = validateFistValues(rfc, curp);
+		console.log(isValid);
+		if (!isValid) {
+			createError('CURP', 'El CURP no es igual al RFC');
+			return;
+		}
 		const isSexValid = validateSex(curp);
 		if (!isSexValid) {
-			createError('CURP', 'El CURP no es valido');
+			createError('CURP', 'El CURP no es valido por el sexo');
 			return;
 		}
 		const isStateValid = validateState(curp);
 		if (!isStateValid) {
-			createError('CURP', 'El CURP no es valido');
+			createError('CURP', 'El CURP no es valido por el estado');
 			return;
 		}
 		const isValidDate = validateDateCharacters(curp);
@@ -82,16 +108,16 @@ function useForm(initialValues: FormProps) {
 		}
 		const isFirst4CharactersValid = validate4Curp(curp);
 		if (!isFirst4CharactersValid) {
-			createError('CURP', 'El CURP no es valido');
+			createError(
+				'CURP',
+				'El CURP no es valido por los primeros 4 caracteres'
+			);
 			return;
 		}
 		const age = calculateYearsOld(curp);
 
 		if (Math.abs(age) < 18) {
-			createError(
-				'CURP',
-				'El CURP no es valido para menores de edad'
-			);
+			createError('CURP', 'El CURP no es valido por la edad');
 			return;
 		}
 		notify({
