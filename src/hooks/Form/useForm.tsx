@@ -7,6 +7,10 @@ interface FormProps {
 
 function useForm(initialValues: FormProps) {
 	const [values, setValues] = useState(initialValues);
+	const [errors, setErrors] = useState({
+		RFC: '',
+		CURP: ''
+	});
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -35,7 +39,8 @@ function useForm(initialValues: FormProps) {
 		handleChange,
 		handleSubmit,
 		validateCURP,
-		validateRFC
+		validateRFC,
+		errors
 	};
 }
 

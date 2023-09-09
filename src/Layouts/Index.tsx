@@ -5,10 +5,7 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
 	return (
 		<>
-			<header className="bg-slate-700">
-				<h1 className="text-2xl  text-blue-500 p-4">SAT</h1>
-			</header>
-			<main className="flex flex-col items-center justify-center min-h-screen bg-[#383838]">
+			<main className="flex flex-col h-screen bg-white scroll-me-0">
 				{children}
 			</main>
 		</>
