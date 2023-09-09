@@ -38,11 +38,11 @@ function Form() {
 				</label>
 
 				<button onClick={() => validateRFC(values.RFC)}>
-					validar RFC
+					Validar RFC
 				</button>
 
 				<button onClick={() => validateCURP(values.CURP)}>
-					validar CURP
+					Validar CURP
 				</button>
 			</form>
 		</>
