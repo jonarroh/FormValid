@@ -1,5 +1,9 @@
 # Documento de Diseño - Validador CURP/RFC
 
+Hecho por:
+Jonathan Uriel Rodríguez Hernández
+Uriel Alejandro Aranda Pozuelos
+
 ## Resumen
 
 Este documento describe el diseño de un ejercicio de programación para crear una pantalla de validación de CURP (Clave Única de Registro de Población) y RFC (Registro Federal de Contribuyentes) en un lenguaje de programación de elección del desarrollador. La pantalla permitirá a los usuarios ingresar una CURP y un RFC y validarlos según ciertos criterios. La validación se realizará en tiempo real y se mostrarán mensajes de error apropiados en caso de que los datos ingresados no cumplan con los requisitos.
@@ -35,7 +39,6 @@ La validación de RFC se realizará de acuerdo con los siguientes criterios:
 2. Los primeros cuatro caracteres deben ser letras.
 3. Los caracteres 5 al 10 deben ser dígitos que representen la fecha de nacimiento (YYMMDD).
 4. El carácter 11 es una letra que indica el género.
-5. El carácter 12 es una letra que se utiliza como carácter homoclave.
 
 ### Cálculo de la Edad
 

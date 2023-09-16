@@ -62,7 +62,7 @@ function useForm(initialValues: FormProps) {
 	const validateRFC = (rfc: string, curp: string) => {
 		const isValid = validateFistValues(rfc, curp);
 		if (!isValid) {
-			createError('RFC', 'El RFC no es igual al CURP');
+			createError('RFC', 'El RFC no coincide con el CURP');
 			return;
 		}
 		const isValid4Characters = validate4Rfc(rfc);
@@ -71,16 +71,14 @@ function useForm(initialValues: FormProps) {
 			return;
 		}
 		const age = calculateYearsOld(curp);
-		console.log(Math.abs(age));
-
-		if (Math.abs(age) < 18) {
+		if (Math.abs(age) < 0) {
 			createError('RFC', 'El RFC no es valido');
 			return;
 		}
 		notify({
-			message: `tu edad es de ${Math.abs(age)} años`,
+			message: `La edad es ${Math.abs(age)} años`,
 			type: 'success',
-			title: 'Información'
+			title: 'Validación correcta'
 		});
 	};
 
@@ -88,17 +86,20 @@ function useForm(initialValues: FormProps) {
 		const isValid = validateFistValues(rfc, curp);
 		console.log(isValid);
 		if (!isValid) {
-			createError('CURP', 'El CURP no es igual al RFC');
+			createError('CURP', 'El CURP no coincide con el RFC');
 			return;
 		}
 		const isSexValid = validateSex(curp);
 		if (!isSexValid) {
-			createError('CURP', 'El CURP no es valido por el sexo');
+			createError('CURP', 'Sexo invalido, revisa el 10° caracter');
 			return;
 		}
 		const isStateValid = validateState(curp);
 		if (!isStateValid) {
-			createError('CURP', 'El CURP no es valido por el estado');
+			createError(
+				'CURP',
+				'Estado invalido revisa 12° y 13° caracter'
+			);
 			return;
 		}
 		const isValidDate = validateDateCharacters(curp);
@@ -116,14 +117,14 @@ function useForm(initialValues: FormProps) {
 		}
 		const age = calculateYearsOld(curp);
 
-		if (Math.abs(age) < 18) {
+		if (Math.abs(age) < 0) {
 			createError('CURP', 'El CURP no es valido por la edad');
 			return;
 		}
 		notify({
-			message: `tu edad es de ${Math.abs(age)} años`,
+			message: `La edad es ${Math.abs(age)} años`,
 			type: 'success',
-			title: 'Información'
+			title: 'Validación correcta'
 		});
 	};
 

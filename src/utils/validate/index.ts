@@ -72,7 +72,6 @@ export const validateDateCharacters = (curp: string) => {
 	if (!regexDigits.test(dateDigits)) {
 		return false;
 	}
-
 	const yearDigits = parseInt(dateDigits.slice(0, 2), 10);
 	const month = parseInt(dateDigits.slice(2, 4), 10);
 	const day = parseInt(dateDigits.slice(4, 6), 10);
